@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <!--
+        targetRuntime有两个值：
+            MyBatis3Simple：生成的是基础版，只有基本的增删改查。
+            MyBatis3：生成的是增强版，除了基本的增删改查之外还有复杂的增删改查。
+    -->
+    <context id="DB2Tables" targetRuntime="MyBatis3">
+        <!--防止生成重复代码-->
+<!--        <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin"/>-->
+        <!-- 项目中添加LombokPlugin类，用于实现添加lombok注释，不生成set,get方法，如果需要生成就把以下plugin注释即可，这也是与这个逆向工程的特点 -->
+<!--        <property name="jdbcType" value="false"/>-->
+
+<!--        &lt;!&ndash; 生成的 Java 文件的编码 &ndash;&gt;-->
+<!--        <property name="javaFileEncoding" value="UTF-8"/>-->
+<!--        &lt;!&ndash; 格式化 Java 代码 &ndash;&gt;-->
+<!--        <property name="javaFormatter" value="org.mybatis.generator.api.dom.DefaultJavaFormatter"/>-->
+
+<!--        <property name="jdbcType" value="false" />-->
+<!--        &lt;!&ndash; 格式化 XML 代码 &ndash;&gt;-->
+<!--        <property name="xmlFormatter" value="org.mybatis.generator.api.dom.DefaultXmlFormatter"/>-->
+<!--        <property name="modelOnly" value="true" />-->
+
+        <plugin type="org.mybatis.generator.plugins.LombokPlugin">
+            <property name="hasLombok" value="true" />
+        </plugin>
+
+<!--        <commentGenerator>-->
+<!--            &lt;!&ndash;是否去掉生成日期&ndash;&gt;-->
+<!--            <property name="suppressDate" value="true"/>-->
+<!--            &lt;!&ndash;是否去除注释&ndash;&gt;-->
+<!--            <property name="suppressAllComments" value="true"/>-->
+<!--&lt;!&ndash;            <property name="author" value="${autho}"/>&ndash;&gt;-->
+<!--&lt;!&ndash;            <property name="dateFormat" value="yyyy/MM/dd HH:mm"/>&ndash;&gt;-->
+<!--        </commentGenerator>-->
+        <!-- 自定义注释生成器 -->
+        <commentGenerator type="com.nibiru.server.plugin.MySQLCommentGenerator">
+            <property name="author" value="mini"/>
+            <property name="dateFormat" value="yyyy/MM/dd HH:mm:ss"/>
+        </commentGenerator>
+
+        <!--连接数据库信息-->
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+                        connectionURL="jdbc:mysql://localhost:3306/nibiru_creator_cloud_main?useServerPrepStmts=true&amp;cachePrepStmts=true&amp;prepStmtCacheSize=25&amp;prepStmtCacheSqlLimit=256&amp;useUnicode=true&amp;characterEncoding=UTF-8&amp;zeroDateTimeBehavior=convertToNull&amp;allowMultiQueries=true&amp;useJDBCCompliantTimezoneShift=true&amp;useLegacyDatetimeCode=false&amp;serverTimezone=Asia/Shanghai"
+                        userId="root"
+                        password="123456">
+            <property name="useInformationSchema" value="true"/>
+            <property name="nullCatalogMeansCurrent" value="true" />
+        </jdbcConnection>
+
+        <!-- 生成pojo包名和位置 -->
+        <javaModelGenerator targetPackage="com.nibiru.server" targetProject="src/main/java">
+            <!--是否开启子包-->
+            <property name="enableSubPackages" value="true"/>
+            <!--是否去除字段名的前后空白-->
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <!-- 生成SQL映射文件的包名和位置 -->
+        <sqlMapGenerator targetPackage="mapper" targetProject="src/main/resources">
+            <!--是否开启子包-->
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+
+        <!-- 生成Mapper接口的包名和位置 -->
+        <javaClientGenerator
+                type="xmlMapper"
+                targetPackage="com.nibiru.server.mapper"
+                targetProject="src/main/java">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+
+        <!-- 表名和对应的实体类名-->
+<!--        <table tableName="cc_order_text_img" domainObjectName="Car"/>-->
+<!--        <table tableName="nc_player_version" enableUpdateByPrimaryKey="true" />-->
+
+        <table tableName="nc_player_version"  enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" selectByExampleQueryId="false">
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+        </table>
+    </context>
+</generatorConfiguration>
